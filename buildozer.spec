@@ -25,15 +25,15 @@ version = 0.1
 
 # (list) Application requirements
 # Agregamos plyer para las alertas/notificaciones y pillow para el procesamiento del banner/prendas
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,plyer
+requirements = python3,kivy==2.3.1,kivymd==1.2.0,pillow,plyer
 
 # (str) Presplash of the application
 # Puedes dejar el banner como pantalla de carga provisional o cambiarlo por tu logo
-presplash.filename = %(source.dir)s/assets/banner.jpg
+presplash.filename = %(source.dir)s/assets/logo.jpg
 
 # (str) Icon of the application
 # Icono de la app en el teléfono (apunta al banner o a tu archivo personalizado)
-icon.filename = %(source.dir)s/assets/banner.jpg
+icon.filename = %(source.dir)s/assets/logo.jpg
 
 # (list) Supported orientations
 orientation = portrait
