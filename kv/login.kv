@@ -1,0 +1,119 @@
+# 1. Definimos una clase dinámica para rotar el icono desde su propio eje
+<AnimateIcon@MDBoxLayout>:
+    orientation: "vertical"
+    size_hint: None, None
+    size: "52dp", "52dp"
+    pos_hint: {"center_x": .5}
+    angle: 0  # Esta es la propiedad que animamos desde Python
+    
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: root.angle
+            # El origen se calcula en el eje X central y en la parte superior del icono (el gancho)
+            origin: self.center_x, self.top - dp(8)
+    canvas.after:
+        PopMatrix
+
+<Login>:
+    canvas.before:
+        Color:
+            rgba: 0.08, 0.08, 0.10, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        # Círculo decorativo superior
+        Color:
+            rgba: 1, 0.34, 0.13, 0.15
+        Ellipse:
+            pos: -60, self.height - 120
+            size: 220, 220
+        # Círculo decorativo inferior
+        Color:
+            rgba: 1, 0.34, 0.13, 0.10
+        Ellipse:
+            pos: self.width - 80, -60
+            size: 180, 180
+
+    MDFloatLayout:
+        MDCard:
+            orientation: "vertical"
+            padding: "28dp"
+            spacing: "14dp"
+            size_hint: .88, None
+            height: "470dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            elevation: 8
+            radius: [20]
+            md_bg_color: 0.13, 0.13, 0.16, 1
+
+            # Logo / ícono adaptado
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: "100dp"
+                spacing: "6dp"
+
+                # Aquí reemplazamos por el contenedor animado
+                AnimateIcon:
+                    id: percha_animada
+                    MDIcon:
+                        icon: "hanger"
+                        halign: "center"
+                        font_size: "52sp"
+                        theme_text_color: "Custom"
+                        text_color: app.theme_cls.primary_color
+                        pos_hint: {"center_x": .5, "center_y": .5}
+
+                MDLabel:
+                    text: "URBAN SHOOP"
+                    halign: "center"
+                    font_style: "H5"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 0.95
+
+                MDLabel:
+                    text: "Moda urbana a tu ritmo"
+                    halign: "center"
+                    font_style: "Caption"
+                    theme_text_color: "Secondary"
+
+            MDTextField:
+                id: usuario
+                hint_text: "Usuario"
+                icon_right: "account-outline"
+                mode: "rectangle"
+                line_color_normal: 0.4, 0.4, 0.4, 1
+
+            MDTextField:
+                id: clave
+                hint_text: "Contraseña"
+                icon_right: "lock-outline"
+                password: True
+                mode: "rectangle"
+                line_color_normal: 0.4, 0.4, 0.4, 1
+
+            MDLabel:
+                id: mensaje
+                text: ""
+                halign: "center"
+                theme_text_color: "Error"
+                font_style: "Caption"
+                size_hint_y: None
+                height: "20dp"
+
+            MDRaisedButton:
+                text: "INGRESAR"
+                pos_hint: {"center_x": .5}
+                size_hint_x: 1
+                height: "50dp"
+                font_style: "Button"
+                on_release: root.validar_login()
+                elevation: 3
+
+            MDLabel:
+                text: "Usuario: admin   ·  Clave: 1234"
+                halign: "center"
+                font_style: "Caption"
+                theme_text_color: "Hint"

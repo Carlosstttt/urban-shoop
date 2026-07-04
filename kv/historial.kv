@@ -1,0 +1,18 @@
+<HistorialScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: 0.10, 0.10, 0.13, 1
+
+        MDTopAppBar:
+            title: "Mis Pedidos"
+            elevation: 0
+            md_bg_color: 0.10, 0.10, 0.13, 1
+            left_action_items: [["arrow-left", lambda x: root.regresar_perfil()]]
+
+        ScrollView:
+            MDBoxLayout:
+                id: contenedor_pedidos
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "14dp"

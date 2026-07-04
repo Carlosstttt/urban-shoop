@@ -1,0 +1,679 @@
+# Definimos una plantilla limpia para los ítems del menú lateral
+<DrawerItem@MDBoxLayout>:
+    icon: ""
+    text: ""
+    size_hint_y: None
+    height: "48dp"
+    padding: "16dp", 0, "16dp", 0
+    spacing: "16dp"
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: 1, 0.34, 0.13, 1  # Tu color naranja representativo
+        pos_hint: {"center_y": .5}
+        font_size: "22sp"
+    MDLabel:
+        text: root.text
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 0.85
+        font_style: "Body2"
+        pos_hint: {"center_y": .5}
+<Inicio>:
+    # Conservamos tu animación del canvas inicial
+    canvas.after:
+        Color:
+            rgba: 1, 0.34, 0.13, 0.3
+        Ellipse:
+            pos: root.pos_figura
+            size: (dp(24), dp(24))
+
+    # 1. CONTENEDOR PRINCIPAL DE LA NAVEGACIÓN LATERAL
+    MDNavigationLayout:
+        ScreenManager:
+            MDScreen:
+                MDBottomNavigation:
+                    panel_color: 0.13, 0.13, 0.16, 1
+                    text_color_active: app.theme_cls.primary_color
+
+                    # ── PESTAÑA INICIO ────────────────────────────────────────────────
+                    MDBottomNavigationItem:
+                        name: "pestana_inicio"
+                        text: "Inicio"
+                        icon: "home-outline"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+
+                            MDTopAppBar:
+                                title: "URBAN SHOOP"
+                                elevation: 0
+                                md_bg_color: 0.10, 0.10, 0.13, 1
+                                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]] # <- Cambiado para abrir el menú
+                                right_action_items: [["cart-outline", lambda x: root.abrir_carrito()]]
+
+                            ScrollView:
+                                MDBoxLayout:
+                                    orientation: "vertical"
+                                    adaptive_height: True
+                                    spacing: "16dp"
+                                    padding: "16dp"
+
+                                    # ── Buscador ──────────────────────────────────────
+                                    MDTextField:
+                                        id: input_busqueda
+                                        hint_text: "Buscar producto..."
+                                        mode: "rectangle"
+                                        size_hint_x: 1
+                                        icon_right: "magnify"
+                                        helper_text_mode: "on_error"
+                                        on_text_validate: root.ejecutar_busqueda(self.text)
+
+                                    # ── Banner ────────────────────────────────────────
+                                    MDCard:
+                                        orientation: "vertical"
+                                        size_hint_y: None
+                                        height: "200dp"
+                                        radius: [18]
+                                        elevation: 3
+                                        md_bg_color: 0.13, 0.13, 0.16, 1
+                                        ripple_behavior: True
+                                        on_release: root.ir_a_categoria("Todas")
+
+                                        canvas.before:
+                                            Color:
+                                                rgba: 1, 0.34, 0.13, 0.18
+                                            RoundedRectangle:
+                                                pos: self.pos
+                                                size: self.size
+                                                radius: [18]
+
+                                        Image:
+                                            source: "assets/banner.jpg"
+                                            allow_stretch: True
+                                            keep_ratio: False
+                                            size_hint_y: 0.68
+
+                                        MDBoxLayout:
+                                            orientation: "horizontal"
+                                            size_hint_y: 0.32
+                                            padding: "14dp"
+
+                                            MDLabel:
+                                                text: "Nueva Colección"
+                                                font_style: "H6"
+                                                bold: True
+                                                size_hint_x: 0.65
+
+                                            MDRaisedButton:
+                                                text: "VER"
+                                                size_hint_x: 0.35
+                                                height: "36dp"
+                                                pos_hint: {"center_y": 0.5}
+                                                font_style: "Button"
+                                                on_release: root.ir_a_categoria("Todas")
+
+                                    # ── Sección: Categorías ───────────────────────────
+                                    MDLabel:
+                                        text: "Categorías"
+                                        bold: True
+                                        font_style: "Subtitle1"
+                                        size_hint_y: None
+                                        height: "28dp"
+                                        theme_text_color: "Custom"
+                                        text_color: app.theme_cls.primary_color
+
+                                    MDGridLayout:
+                                        cols: 2
+                                        adaptive_height: True
+                                        spacing: "10dp"
+
+                                        MDCard:
+                                            size_hint_y: None
+                                            height: "64dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            on_release: root.ir_a_categoria("Camisas")
+                                            MDBoxLayout:
+                                                padding: "12dp"
+                                                MDIcon:
+                                                    icon: "tshirt-crew-outline"
+                                                    size_hint_x: None
+                                                    width: "32dp"
+                                                    theme_text_color: "Custom"
+                                                    text_color: app.theme_cls.primary_color
+                                                MDLabel:
+                                                    text: "Camisas"
+                                                    font_style: "Subtitle2"
+
+                                        MDCard:
+                                            size_hint_y: None
+                                            height: "64dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            on_release: root.ir_a_categoria("Pantalones")
+                                            MDBoxLayout:
+                                                padding: "12dp"
+                                                MDIcon:
+                                                    icon: "human-male"
+                                                    size_hint_x: None
+                                                    width: "32dp"
+                                                    theme_text_color: "Custom"
+                                                    text_color: app.theme_cls.primary_color
+                                                MDLabel:
+                                                    text: "Pantalones"
+                                                    font_style: "Subtitle2"
+
+                                        MDCard:
+                                            size_hint_y: None
+                                            height: "64dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            on_release: root.ir_a_categoria("Zapatos")
+                                            MDBoxLayout:
+                                                padding: "12dp"
+                                                MDIcon:
+                                                    icon: "shoe-sneaker"
+                                                    size_hint_x: None
+                                                    width: "32dp"
+                                                    theme_text_color: "Custom"
+                                                    text_color: app.theme_cls.primary_color
+                                                MDLabel:
+                                                    text: "Calzado"
+                                                    font_style: "Subtitle2"
+
+                                        MDCard:
+                                            size_hint_y: None
+                                            height: "64dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            on_release: root.ir_a_categoria("Gorras")
+                                            MDBoxLayout:
+                                                padding: "12dp"
+                                                MDIcon:
+                                                    icon: "hat-fedora"
+                                                    size_hint_x: None
+                                                    width: "32dp"
+                                                    theme_text_color: "Custom"
+                                                    text_color: app.theme_cls.primary_color
+                                                MDLabel:
+                                                    text: "Accesorios"
+                                                    font_style: "Subtitle2"
+
+                                    # ── Sección: Destacados ──────────────────────────
+                                    MDLabel:
+                                        text: "Destacados"
+                                        bold: True
+                                        font_style: "Subtitle1"
+                                        size_hint_y: None
+                                        height: "28dp"
+                                        theme_text_color: "Custom"
+                                        text_color: app.theme_cls.primary_color
+
+                                    MDGridLayout:
+                                        cols: 2
+                                        adaptive_height: True
+                                        spacing: "10dp"
+
+                                        MDCard:
+                                            orientation: "vertical"
+                                            size_hint_y: None
+                                            height: "185dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            ripple_behavior: True
+                                            on_release: root.abrir_detalle_desde_inicio("Camisa Casual")
+                                            Image:
+                                                source: "assets/camisa casual.jpg"
+                                                allow_stretch: True
+                                                keep_ratio: True
+                                                size_hint_y: 0.65
+                                            MDLabel:
+                                                text: "Camisa Casual"
+                                                halign: "center"
+                                                bold: True
+                                                font_style: "Caption"
+                                                size_hint_y: 0.18
+                                            MDLabel:
+                                                text: "$25.00"
+                                                halign: "center"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                font_style: "Caption"
+                                                bold: True
+                                                size_hint_y: 0.17
+
+                                        MDCard:
+                                            orientation: "vertical"
+                                            size_hint_y: None
+                                            height: "185dp"
+                                            radius: [14]
+                                            elevation: 2
+                                            ripple_behavior: True
+                                            on_release: root.abrir_detalle_desde_inicio("Zapatos Urban")
+                                            Image:
+                                                source: "assets/zapatos.jpg"
+                                                allow_stretch: True
+                                                keep_ratio: True
+                                                size_hint_y: 0.65
+                                            MDLabel:
+                                                text: "Zapatos Urban"
+                                                halign: "center"
+                                                bold: True
+                                                font_style: "Caption"
+                                                size_hint_y: 0.18
+                                            MDLabel:
+                                                text: "$45.00"
+                                                halign: "center"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                font_style: "Caption"
+                                                bold: True
+                                                size_hint_y: 0.17
+
+                    # ── PESTAÑA CATEGORÍAS ────────────────────────────────────────────
+                    MDBottomNavigationItem:
+                        name: "pestana_categorias"
+                        text: "Catálogo"
+                        icon: "view-grid-outline"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+
+                            MDTopAppBar:
+                                title: "Categorías"
+                                elevation: 0
+                                md_bg_color: 0.10, 0.10, 0.13, 1
+                                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+                            ScrollView:
+                                MDBoxLayout:
+                                    orientation: "vertical"
+                                    adaptive_height: True
+                                    padding: "16dp"
+                                    spacing: "12dp"
+
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "72dp"
+                                        radius: [14]
+                                        elevation: 2
+                                        ripple_behavior: True
+                                        on_release: root.ir_a_categoria("Camisas")
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "14dp"
+                                            MDIcon:
+                                                icon: "tshirt-crew"
+                                                size_hint_x: None
+                                                width: "36dp"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Camisas y Camisetas"
+                                                font_style: "Subtitle1"
+                                                bold: True
+                                                pos_hint: {"center_y": 0.5}
+                                            MDIcon:
+                                                icon: "chevron-right"
+                                                size_hint_x: None
+                                                width: "24dp"
+                                                pos_hint: {"center_y": 0.5}
+                                                theme_text_color: "Hint"
+
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "72dp"
+                                        radius: [14]
+                                        elevation: 2
+                                        ripple_behavior: True
+                                        on_release: root.ir_a_categoria("Pantalones")
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "14dp"
+                                            MDIcon:
+                                                icon: "human-male"
+                                                size_hint_x: None
+                                                width: "36dp"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Pantalones y Jeans"
+                                                font_style: "Subtitle1"
+                                                bold: True
+                                                pos_hint: {"center_y": 0.5}
+                                            MDIcon:
+                                                icon: "chevron-right"
+                                                size_hint_x: None
+                                                width: "24dp"
+                                                pos_hint: {"center_y": 0.5}
+                                                theme_text_color: "Hint"
+
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "72dp"
+                                        radius: [14]
+                                        elevation: 2
+                                        ripple_behavior: True
+                                        on_release: root.ir_a_categoria("Zapatos")
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "14dp"
+                                            MDIcon:
+                                                icon: "shoe-sneaker"
+                                                size_hint_x: None
+                                                width: "36dp"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Calzado / Zapatos"
+                                                font_style: "Subtitle1"
+                                                bold: True
+                                                pos_hint: {"center_y": 0.5}
+                                            MDIcon:
+                                                icon: "chevron-right"
+                                                size_hint_x: None
+                                                width: "24dp"
+                                                pos_hint: {"center_y": 0.5}
+                                                theme_text_color: "Hint"
+
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "72dp"
+                                        radius: [14]
+                                        elevation: 2
+                                        ripple_behavior: True
+                                        on_release: root.ir_a_categoria("Gorras")
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "14dp"
+                                            MDIcon:
+                                                icon: "hat-fedora"
+                                                size_hint_x: None
+                                                width: "36dp"
+                                                theme_text_color: "Custom"
+                                                text_color: app.theme_cls.primary_color
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Gorras y Accesorios"
+                                                font_style: "Subtitle1"
+                                                bold: True
+                                                pos_hint: {"center_y": 0.5}
+                                            MDIcon:
+                                                icon: "chevron-right"
+                                                size_hint_x: None
+                                                width: "24dp"
+                                                pos_hint: {"center_y": 0.5}
+                                                theme_text_color: "Hint"
+
+                    # ── PESTAÑA FAVORITOS ─────────────────────────────────────────────
+                    MDBottomNavigationItem:
+                        name: "pestana_favoritos"
+                        text: "Favoritos"
+                        icon: "heart-outline"
+                        on_tab_press: root.actualizar_interfaz_favoritos()
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+
+                            MDTopAppBar:
+                                title: "Mis Favoritos"
+                                elevation: 0
+                                md_bg_color: 0.10, 0.10, 0.13, 1
+                                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+                            ScrollView:
+                                MDBoxLayout:
+                                    id: contenedor_favoritos
+                                    orientation: "vertical"
+                                    adaptive_height: True
+                                    padding: "16dp"
+                                    spacing: "12dp"
+
+                                    MDBoxLayout:
+                                        id: vista_vacia_favoritos
+                                        orientation: "vertical"
+                                        padding: [0, "40dp", 0, "40dp"]
+                                        spacing: "14dp"
+                                        adaptive_height: True
+                                        size_hint_y: None
+
+                                        MDIcon:
+                                            icon: "heart-broken"
+                                            halign: "center"
+                                            font_size: "72sp"
+                                            theme_text_color: "Hint"
+
+                                        MDLabel:
+                                            text: "Aún no tienes favoritos"
+                                            halign: "center"
+                                            font_style: "H6"
+                                            theme_text_color: "Secondary"
+                                            adaptive_height: True
+
+                                        MDLabel:
+                                            text: "Explora la tienda y presiona el ♡ en el detalle de cada producto."
+                                            halign: "center"
+                                            theme_text_color: "Hint"
+                                            font_style: "Caption"
+                                            adaptive_height: True
+
+                    # ── PESTAÑA PERFIL ────────────────────────────────────────────────
+                    MDBottomNavigationItem:
+                        name: "pestana_perfil"
+                        text: "Perfil"
+                        icon: "account-outline"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+
+                            MDTopAppBar:
+                                title: "Mi Cuenta"
+                                elevation: 0
+                                md_bg_color: 0.10, 0.10, 0.13, 1
+                                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+                            ScrollView:
+                                MDBoxLayout:
+                                    orientation: "vertical"
+                                    padding: "30dp"
+                                    spacing: "20dp"
+                                    adaptive_height: True
+
+                                    # Avatar
+                                    AnchorLayout:
+                                        anchor_x: "center"
+                                        anchor_y: "center"
+                                        size_hint: None, None
+                                        size: "120dp", "120dp"
+                                        pos_hint: {"center_x": 0.5}
+                                        canvas.before:
+                                            Color:
+                                                rgba: 1, 0.34, 0.13, 0.20
+                                            Ellipse:
+                                                pos: self.pos
+                                                size: self.size
+
+                                        MDIcon:
+                                            icon: "account-circle"
+                                            halign: "center"
+                                            valign: "middle"
+                                            font_size: "100sp"
+                                            theme_text_color: "Custom"
+                                            text_color: app.theme_cls.primary_color
+
+                                    MDLabel:
+                                        text: "Estudiante - Yavirac"
+                                        halign: "center"
+                                        font_style: "H6"
+                                        bold: True
+                                        adaptive_height: True
+
+                                    MDLabel:
+                                        text: "usuario@yavirac.edu.ec"
+                                        halign: "center"
+                                        theme_text_color: "Secondary"
+                                        adaptive_height: True
+
+                                    MDSeparator:
+
+                                    # Opciones de cuenta
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "52dp"
+                                        radius: [12]
+                                        elevation: 1
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "12dp"
+                                            MDIcon:
+                                                icon: "account-edit-outline"
+                                                size_hint_x: None
+                                                width: "28dp"
+                                                theme_text_color: "Secondary"
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Editar perfil"
+                                                pos_hint: {"center_y": 0.5}
+
+                                    MDCard:
+                                        size_hint_y: None
+                                        height: "52dp"
+                                        radius: [12]
+                                        elevation: 1
+                                        ripple_behavior: True
+                                        on_release:
+                                            app.root.transition.direction = "left"
+                                            app.root.current = "historial"
+                                        MDBoxLayout:
+                                            padding: "16dp"
+                                            spacing: "12dp"
+                                            MDIcon:
+                                                icon: "package-variant-closed"
+                                                size_hint_x: None
+                                                width: "28dp"
+                                                theme_text_color: "Secondary"
+                                                pos_hint: {"center_y": 0.5}
+                                            MDLabel:
+                                                text: "Mis pedidos"
+                                                pos_hint: {"center_y": 0.5}
+
+                                    Widget:
+                                        size_hint_y: None
+                                        height: "10dp"
+
+                                    MDRectangleFlatIconButton:
+                                        text: "Cerrar Sesión"
+                                        icon: "logout"
+                                        pos_hint: {"center_x": .5}
+                                        line_color: 1, 0.3, 0.3, 1
+                                        text_color: 1, 0.3, 0.3, 1
+                                        icon_color: 1, 0.3, 0.3, 1
+                                        on_release: app.mostrar_dialogo_salida()
+
+        # 3. EL PANEL LATERAL DESLIZABLE (EL DRAWER)
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+            md_bg_color: 0.13, 0.13, 0.16, 1  # Alineado al tono de tus tarjetas
+            width: "280dp"
+
+            MDBoxLayout:
+                orientation: "vertical"
+                padding: "16dp"
+                spacing: "12dp"
+
+                # Encabezado del Menú Lateral
+                MDBoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "110dp"
+                    spacing: "6dp"
+
+                    MDIcon:
+                        icon: "storefront-outline"
+                        font_size: "36sp"
+                        theme_text_color: "Custom"
+                        text_color: 1, 0.34, 0.13, 1
+
+                    MDLabel:
+                        text: "URBAN SHOOP"
+                        font_style: "H6"
+                        bold: True
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 0.95
+
+                    MDLabel:
+                        text: "Tienda y Redes Oficiales"
+                        font_style: "Caption"
+                        theme_text_color: "Secondary"
+
+                MDSeparator:
+                    color: 0.4, 0.4, 0.4, 0.3
+
+                # SECCIÓN DE UBICACIÓN
+                MDLabel:
+                    text: "NUESTRA TIENDA"
+                    font_style: "Button"
+                    theme_text_color: "Custom"
+                    text_color: 1, 0.34, 0.13, 1
+                    size_hint_y: None
+                    height: "24dp"
+
+                DrawerItem:
+                    icon: "map-marker-radius-outline"
+                    text: "Av. Central (Frente a Yavirac)"
+
+                DrawerItem:
+                    icon: "clock-check-outline"
+                    text: "Lun - Sáb: 09:00 - 18:00"
+
+                MDSeparator:
+                    color: 0.4, 0.4, 0.4, 0.3
+
+                # SECCIÓN DE REDES SOCIALES
+                MDLabel:
+                    text: "SÍGUENOS"
+                    font_style: "Button"
+                    theme_text_color: "Custom"
+                    text_color: 1, 0.34, 0.13, 1
+                    size_hint_y: None
+                    height: "24dp"
+
+                # Tarjetas clickeables para tus redes sociales
+                MDCard:
+                    size_hint_y: None
+                    height: "48dp"
+                    md_bg_color: 0, 0, 0, 0
+                    elevation: 0
+                    ripple_behavior: True
+                    on_release: root.abrir_red_social("instagram")
+                    DrawerItem:
+                        icon: "instagram"
+                        text: "@urban.shoop"
+
+                MDCard:
+                    size_hint_y: None
+                    height: "48dp"
+                    md_bg_color: 0, 0, 0, 0
+                    elevation: 0
+                    ripple_behavior: True
+                    on_release: root.abrir_red_social("tiktok")
+                    DrawerItem:
+                        icon: "tiktok"
+                        text: "urban.shoop.oficial"
+
+                MDCard:
+                    size_hint_y: None
+                    height: "48dp"
+                    md_bg_color: 0, 0, 0, 0
+                    elevation: 0
+                    ripple_behavior: True
+                    on_release: root.abrir_red_social("whatsapp")
+                    DrawerItem:
+                        icon: "whatsapp"
+                        text: "Contactar por WhatsApp"
+
+                # Relleno inferior para balancear el espacio
+                Widget:

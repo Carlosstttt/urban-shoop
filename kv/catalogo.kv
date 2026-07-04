@@ -1,0 +1,226 @@
+<Catalogo>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Catálogo"
+            elevation: 0
+            md_bg_color: 0.10, 0.10, 0.13, 1
+            left_action_items: [["arrow-left", lambda x: root.regresar_inicio()]]
+            right_action_items: [["magnify", lambda x: None]]
+
+        # Barra de filtros
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: "48dp"
+            padding: ["10dp", "4dp", "10dp", "4dp"]
+            spacing: "10dp"
+            md_bg_color: 0.12, 0.12, 0.15, 1
+
+            MDRectangleFlatIconButton:
+                text: "Ordenar"
+                icon: "sort-variant"
+                size_hint_x: 0.5
+                height: "36dp"
+
+            MDRectangleFlatIconButton:
+                text: "Filtrar"
+                icon: "filter-variant"
+                size_hint_x: 0.5
+                height: "36dp"
+
+        ScrollView:
+            MDGridLayout:
+                cols: 2
+                adaptive_height: True
+                padding: "12dp"
+                spacing: "12dp"
+
+                # ── Producto 1: Camisa Casual ──────────────────────────
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "225dp"
+                    radius: [16]
+                    elevation: 3
+                    ripple_behavior: True
+                    on_release: root.ver_detalle_producto("Camisa Casual")
+
+                    Image:
+                        source: "assets/camisa casual.jpg"
+                        allow_stretch: True
+                        keep_ratio: True
+                        size_hint_y: 0.60
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: 0.40
+                        padding: ["8dp", "4dp", "8dp", "6dp"]
+                        spacing: "2dp"
+
+                        MDLabel:
+                            text: "Camisa Casual"
+                            bold: True
+                            font_style: "Caption"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "$25.00"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+                            font_style: "Subtitle2"
+                            bold: True
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "NUEVO"
+                            theme_text_color: "Custom"
+                            text_color: 0.2, 0.8, 0.4, 1
+                            font_style: "Overline"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "16dp"
+
+                # ── Producto 2: Zapatos Urban ──────────────────────────
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "225dp"
+                    radius: [16]
+                    elevation: 3
+                    ripple_behavior: True
+                    on_release: root.ver_detalle_producto("Zapatos Urban")
+
+                    Image:
+                        source: "assets/zapatos.jpg"
+                        allow_stretch: True
+                        keep_ratio: True
+                        size_hint_y: 0.60
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: 0.40
+                        padding: ["8dp", "4dp", "8dp", "6dp"]
+                        spacing: "2dp"
+
+                        MDLabel:
+                            text: "Zapatos Urban"
+                            bold: True
+                            font_style: "Caption"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "$45.00"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+                            font_style: "Subtitle2"
+                            bold: True
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: ""
+                            size_hint_y: None
+                            height: "16dp"
+
+                # ── Producto 3: Pantalón Jean ──────────────────────────
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "225dp"
+                    radius: [16]
+                    elevation: 3
+                    ripple_behavior: True
+                    on_release: root.ver_detalle_producto("Pantalón Jean")
+
+                    Image:
+                        source: "assets/pantalon.jpg"
+                        allow_stretch: True
+                        keep_ratio: True
+                        size_hint_y: 0.60
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: 0.40
+                        padding: ["8dp", "4dp", "8dp", "6dp"]
+                        spacing: "2dp"
+
+                        MDLabel:
+                            text: "Pantalón Jean"
+                            bold: True
+                            font_style: "Caption"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "$35.00"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+                            font_style: "Subtitle2"
+                            bold: True
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: ""
+                            size_hint_y: None
+                            height: "16dp"
+
+                # ── Producto 4: Gorra Urban ────────────────────────────
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "225dp"
+                    radius: [16]
+                    elevation: 3
+                    ripple_behavior: True
+                    on_release: root.ver_detalle_producto("Gorra Urban")
+
+                    Image:
+                        source: "assets/gorra.jpg"
+                        allow_stretch: True
+                        keep_ratio: True
+                        size_hint_y: 0.60
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: 0.40
+                        padding: ["8dp", "4dp", "8dp", "6dp"]
+                        spacing: "2dp"
+
+                        MDLabel:
+                            text: "Gorra Urban"
+                            bold: True
+                            font_style: "Caption"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "$15.00"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+                            font_style: "Subtitle2"
+                            bold: True
+                            halign: "left"
+                            size_hint_y: None
+                            height: "20dp"
+
+                        MDLabel:
+                            text: "NUEVO"
+                            theme_text_color: "Custom"
+                            text_color: 0.2, 0.8, 0.4, 1
+                            font_style: "Overline"
+                            halign: "left"
+                            size_hint_y: None
+                            height: "16dp"

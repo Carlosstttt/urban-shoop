@@ -1,0 +1,93 @@
+<Carrito>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Mi Carrito"
+            elevation: 0
+            md_bg_color: 0.10, 0.10, 0.13, 1
+            left_action_items: [["arrow-left", lambda x: root.regresar_anterior()]]
+
+        # Lista de productos (scrolleable)
+        ScrollView:
+            size_hint_y: 1
+            MDBoxLayout:
+                id: contenedor_productos
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "14dp"
+                spacing: "10dp"
+
+        # Panel de resumen fijo al fondo
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: "195dp"
+            padding: ["18dp", "14dp", "18dp", "14dp"]
+            spacing: "8dp"
+            md_bg_color: 0.12, 0.12, 0.15, 1
+            elevation: 4
+
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: "24dp"
+
+                MDLabel:
+                    text: "Subtotal"
+                    theme_text_color: "Secondary"
+                    font_style: "Body2"
+
+                MDLabel:
+                    id: txt_subtotal_num
+                    text: "$0.00"
+                    halign: "right"
+                    bold: True
+                    font_style: "Body2"
+
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: "24dp"
+
+                MDLabel:
+                    text: "Envío"
+                    theme_text_color: "Secondary"
+                    font_style: "Body2"
+
+                MDLabel:
+                    id: txt_envio_num
+                    text: "$0.00"
+                    halign: "right"
+                    bold: True
+                    font_style: "Body2"
+
+            MDSeparator:
+
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: "30dp"
+
+                MDLabel:
+                    text: "TOTAL"
+                    font_style: "Subtitle1"
+                    bold: True
+
+                MDLabel:
+                    id: txt_total_num
+                    text: "$0.00"
+                    halign: "right"
+                    font_style: "Subtitle1"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color
+
+            MDRaisedButton:
+                text: "  IR A PAGAR"
+                icon: "lock-outline"
+                size_hint_x: 1
+                height: "50dp"
+                font_style: "Button"
+                elevation: 3
+                on_release: root.procesar_pago()
